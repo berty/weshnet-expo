@@ -63,3 +63,5 @@ Dual-licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) an
 `SPDX-License-Identifier: (Apache-2.0 OR MIT)`
 
 See the [COPYRIGHT](./COPYRIGHT) file for more details.
+# weshnet-expo
+Weshnet Expo Module
