@@ -9,3 +9,9 @@ __tests__
 /android/src/test/
 /android/build/
 /example/
+
+# exclude all tgz
+/*.tgx
+
+# Exclude frameworks
+/ios/Frameworks

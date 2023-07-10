@@ -20,8 +20,12 @@ Pod::Spec.new do |s|
   # Swift/Objective-C compatibility
   s.pod_target_xcconfig = {
     'DEFINES_MODULE' => 'YES',
-    'SWIFT_COMPILATION_MODE' => 'wholemodule'
+    'SWIFT_COMPILATION_MODE' => 'wholemodule',
   }
-  
-  s.source_files = "**/*.{h,m,swift}"
+
+  s.source_files = 'src/**/*.{h,m,mm,swift}'
+  s.prepare_command = 'make -C .. build.ios'
+  s.vendored_frameworks = "Frameworks/WeshnetCore.xcframework"
+  s.preserve_paths = 'Frameworks/WeshnetCore.xcframework'
+
 end

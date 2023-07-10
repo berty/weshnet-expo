@@ -9,8 +9,16 @@ import { ChangeEventPayload, WeshnetExpoViewProps } from './WeshnetExpo.types';
 // Get the native constant value.
 export const PI = WeshnetExpoModule.PI;
 
-export function hello(): string {
-  return WeshnetExpoModule.hello();
+export function hello(msg: string): string {
+    return WeshnetExpoModule.helloGo(msg);
+}
+
+export function asyncResolve(msg: string): Promise<string> {
+    return WeshnetExpoModule.asyncResolveGo(msg);
+}
+
+export async function asyncReject(): Promise<string> {
+    return WeshnetExpoModule.asyncRejectGo();
 }
 
 export async function setValueAsync(value: string) {
