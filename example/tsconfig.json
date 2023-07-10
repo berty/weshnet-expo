@@ -1,0 +1,10 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "paths": {
+      "weshnet-expo": ["../src/index"],
+      "weshnet-expo/*": ["../src/*"]
+    }
+  }
+}
