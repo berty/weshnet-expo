@@ -30,3 +30,5 @@ $(OUTPUT_FRAMEWORK): $(default_deps) $(go_deps)
 output/android/core.aar: $(default_deps) $(go_deps)
 	@mkdir -p $(dir $@)
 	go run golang.org/x/mobile/cmd/gomobile bind -v -o $@ -target android $(make_dir)/framework/core
+
+include makefiles/asdf.mk

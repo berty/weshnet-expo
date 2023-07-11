@@ -1,42 +1,50 @@
 <h1 align="center">
-<br>
-  <img src="https://berty.tech/img/berty.svg" alt="Yolo - The Berty Project" height="300px">
-  <br>
+Wesh Network Expo Module
 </h1>
-
-<h3 align="center">Berty is a secure peer-to-peer messaging app that works with or without internet access, cellular data or trust in the network</h3>
-
 <p align="center">
-    <a href="https://berty.tech"><img alt="Made by Berty Technologies" src="https://assets.berty.tech/files/badge--10.svg" /></a>
     <a href="https://crpt.fyi/berty-discord"><img alt="discord" src="https://img.shields.io/badge/discord-gray?logo=discord" /></a>
     <a href="https://github.com/berty"><img alt="github" src="https://img.shields.io/badge/@berty-471961?logo=github" /></a>
-    <a href="https://twitter.com/berty"><img alt="twitter" src="https://img.shields.io/twitter/follow/berty?label=%40berty&style=flat&logo=twitter" /></a>
-    <a href="https://pkg.go.dev/berty.tech/REPLACEME?tab=subdirectories"><img alt="go.dev reference" src="https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white" /></a>
-    <a href="https://github.com/berty/REPLACEME/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/berty/REPLACEME" /></a>
-
+    <a href="https://twitter.com/weshnet"><img alt="twitter" src="https://img.shields.io/twitter/follow/berty?label=%40weshnet&style=flat&logo=twitter" /></a>
 </p>
 
-> TODO: short headline.
+<h3 align="center">The Wesh network toolkit lets your application use the Wesh protocol to support privacy-based, off-grid, peer-to-peer communication.  
+<br/><br/>For details, see the Wesh website at https://wesh.network.The website includes blog tutorials which introduce you to Wesh and walk you through some example applications and background of the Wesh protocol.</h3>
 
-TODO: short intro for non-tech. what is this repo about.
+---
 
-TODO: optional clarification for techs, if the short intro is not enough to understand what is this repo about.
+## Requirements
 
-## Install
-
-TODO
+. [asdf](https://asdf-vm.com/#/core-manage-asdf-vm) (required for installing the correct version of Go and other tools. See the complete dependencies list in the [asdf configuration file](./.tool-versions))
 
 ## Getting Started
 
-TODO
+    ### Install the tools
+    $ make asdf.install_tools
 
-### Troubleshooting
+    ### Install the project dependencies
+    $ yarn install
 
-_(please use [issues](https://github.com/berty/REPLACEME))_
+    ### Build the project for IOS
+    $ make build.ios
+
 
 ## Development
 
 TODO
+
+### Testing
+
+To test the project, we need to push the npm package to a local registry and then install it in the example app.
+Let's start by pushing the package to the local registry:
+
+    ### Start the local registry
+    $ docker run -it --rm --name verdaccio -p 4873:4873 verdaccio/verdaccio
+    
+    ### Creates a new user in the local registry
+    $ npm adduser --registry http://localhost:4873
+
+    ### In the root folder, push the package to the local registry
+    $ yarn publish --registry http://localhost:4873
 
 ### Architecture
 
@@ -63,5 +71,3 @@ Dual-licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) an
 `SPDX-License-Identifier: (Apache-2.0 OR MIT)`
 
 See the [COPYRIGHT](./COPYRIGHT) file for more details.
-# weshnet-expo
-Weshnet Expo Module
