@@ -1,4 +1,7 @@
 <h1 align="center">
+  <img src="https://wesh.network/img/LogoCubes.svg" alt="Berty" title="Berty" height="100px" />
+</h1>
+<h1 align="center">
 Wesh Network Expo Module
 </h1>
 <p align="center">
@@ -8,57 +11,19 @@ Wesh Network Expo Module
 </p>
 
 <h3 align="center">The Wesh network toolkit lets your application use the Wesh protocol to support privacy-based, off-grid, peer-to-peer communication.  
-<br/><br/>For details, see the Wesh website at https://wesh.network.The website includes blog tutorials which introduce you to Wesh and walk you through some example applications and background of the Wesh protocol.</h3>
+<br/><br/>For details, see the Wesh website at <a href="https://wesh.network">https://wesh.network</a>. The website includes blog tutorials which introduce you to Wesh and walk you through some example applications and background of the Wesh protocol.</h3>
 
 ---
 
-## Requirements
+## Instalation
 
-. [asdf](https://asdf-vm.com/#/core-manage-asdf-vm) (required for installing the correct version of Go and other tools. See the complete dependencies list in the [asdf configuration file](./.tool-versions))
-
-## Getting Started
-
-    ### Install the tools
-    $ make asdf.install_tools
-
-    ### Install the project dependencies
-    $ yarn install
-
-    ### Build the project for IOS
-    $ make build.ios
-
-
-## Development
-
-TODO
-
-### Testing
-
-To test the project, we need to push the npm package to a local registry and then install it in the example app.
-Let's start by pushing the package to the local registry:
-
-    ### Start the local registry
-    $ docker run -it --rm --name verdaccio -p 4873:4873 verdaccio/verdaccio
-    
-    ### Creates a new user in the local registry
-    $ npm adduser --registry http://localhost:4873
-
-    ### In the root folder, push the package to the local registry
-    $ yarn publish --registry http://localhost:4873
-
-### Architecture
-
-TODO
-
-### Testing
-
-TODO
+    $ npx expo install weshnet-expo
 
 ## Contributing
 
 [![Contribute to Berty](https://assets.berty.tech/files/contribute-contribute_v2--Contribute-berty-ultra-light.gif)](https://github.com/berty/community)
 
-If you want to help out, please see [CONTRIBUTING.md](./CONTRIBUTING.md).
+If you want to help out, please see [docs/developer-guide.md](./docs/developer-guide.md) and [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 This repository falls under the Berty [Code of Conduct](https://github.com/berty/community/blob/master/CODE_OF_CONDUCT.md).
 
