@@ -1,49 +1,69 @@
 import ExpoModulesCore
 import WeshnetCore
 
-public class WeshnetExpoModule: Module {
-    // Each module class must implement the definition function. The definition consists of components
-    // that describes the module's functionality and behavior.
-    // See https://docs.expo.dev/modules/module-api for more details about available components.
-    public func definition() -> ModuleDefinition {
-        // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
-        // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
-        // The module will be accessible from `requireNativeModule('WeshnetExpo')` in JavaScript.
-        Function("helloGo") { (value: String) in 
-            return WeshnetCoreHello("from golang")
-        }
-        
-        Name("WeshnetExpo")
+// Define specific errors for core initialization.
+enum WeshnetCoreInitializationError: Error {
+    case initializationFailed
+}
 
-        // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
-        Constants([
-                    "PI": Double.pi
-                  ])
-
-        // Defines event names that the module can send to JavaScript.
-        Events("onChange")
-
-        // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-        Function("hello") {
-            return "Hello world! 👋"
-        }
-
-        // Defines a JavaScript function that always returns a Promise and whose native code
-        // is by default dispatched on the different thread than the JavaScript runtime runs on.
-        AsyncFunction("setValueAsync") { (value: String) in
-            // Send an event to JavaScript.
-            self.sendEvent("onChange", [
-                                         "value": value
-                                       ])
-        }
-
-        // Enables the module to be used as a native view. Definition components that are accepted as part of the
-        // view definition: Prop, Events.
-        View(WeshnetExpoView.self) {
-            // Defines a setter for the `name` prop.
-            Prop("name") { (view: WeshnetExpoView, prop: String) in
-                print(prop)
-            }
+// Redefine WeshnetError with more context.
+enum WeshnetError: Error {
+    case alreadyStarted
+    case notStarted
+    case coreError(NSError)
+    
+    var description: String {
+        switch self {
+        case .alreadyStarted:
+            return "Service has already started"
+        case .notStarted:
+            return "Service hasn't started yet"
+        case .coreError(let error):
+            return error.localizedDescription
         }
     }
 }
+
+public class WeshnetExpoModule: Module {
+    var service: WeshnetCoreService?
+    
+    public func definition() -> ModuleDefinition {
+        Name("WeshnetExpo")
+
+        AsyncFunction("init") { (promise: Promise) in
+            do {
+                if self.service != nil {
+                    throw WeshnetError.alreadyStarted
+                }
+                
+                try self.initializeCoreService(promise: promise)
+            } catch let err {
+                promise.reject(err)
+            }
+        }
+        
+        AsyncFunction("invokeMethod") { (method: String, b64message: String, promise: Promise) in
+            do {
+                guard let service = self.service else {
+                    throw WeshnetError.notStarted
+                }
+                
+                let block = PromiseBlock(promise: promise)
+                service.invokeBridgeMethod(with: block, method: method, b64message: b64message)
+            } catch let err {
+                promise.reject(err)
+            }
+        }
+    }
+    
+    private func initializeCoreService(promise: Promise) throws {
+        var err: NSError?
+        
+        guard case self.service = WeshnetCoreNewService(&err) else {
+            throw WeshnetError.coreError(err!)
+        }
+        
+        promise.resolve()
+    }
+}
+

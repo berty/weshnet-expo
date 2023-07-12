@@ -28,7 +28,9 @@
   "author": "Berty Technologies <oss@berty.tech>",
   "license": "MIT",
   "homepage": "https://github.com/berty/weshnet-expo#readme",
-  "dependencies": {},
+  "dependencies": {
+    "protobufjs": "^7.2.4"
+  },
   "devDependencies": {
     "@types/react": "^18.0.25",
     "expo-module-scripts": "^3.0.11",
