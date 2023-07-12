@@ -1,56 +1,29 @@
 <h1 align="center">
-<br>
-  <img src="https://berty.tech/img/berty.svg" alt="Yolo - The Berty Project" height="300px">
-  <br>
+  <img src="https://wesh.network/img/LogoCubes.svg" alt="Berty" title="Berty" height="100px" />
 </h1>
-
-<h3 align="center">Berty is a secure peer-to-peer messaging app that works with or without internet access, cellular data or trust in the network</h3>
-
+<h1 align="center">
+Wesh Network Expo Module
+</h1>
 <p align="center">
-    <a href="https://berty.tech"><img alt="Made by Berty Technologies" src="https://assets.berty.tech/files/badge--10.svg" /></a>
     <a href="https://crpt.fyi/berty-discord"><img alt="discord" src="https://img.shields.io/badge/discord-gray?logo=discord" /></a>
     <a href="https://github.com/berty"><img alt="github" src="https://img.shields.io/badge/@berty-471961?logo=github" /></a>
-    <a href="https://twitter.com/berty"><img alt="twitter" src="https://img.shields.io/twitter/follow/berty?label=%40berty&style=flat&logo=twitter" /></a>
-    <a href="https://pkg.go.dev/berty.tech/REPLACEME?tab=subdirectories"><img alt="go.dev reference" src="https://img.shields.io/badge/go.dev-reference-007d9c?logo=go&logoColor=white" /></a>
-    <a href="https://github.com/berty/REPLACEME/releases"><img alt="GitHub release" src="https://img.shields.io/github/v/release/berty/REPLACEME" /></a>
-
+    <a href="https://twitter.com/weshnet"><img alt="twitter" src="https://img.shields.io/twitter/follow/berty?label=%40weshnet&style=flat&logo=twitter" /></a>
 </p>
 
-> TODO: short headline.
+<h3 align="center">The Wesh network toolkit lets your application use the Wesh protocol to support privacy-based, off-grid, peer-to-peer communication.  
+<br/><br/>For details, see the Wesh website at <a href="https://wesh.network">https://wesh.network</a>. The website includes blog tutorials which introduce you to Wesh and walk you through some example applications and background of the Wesh protocol.</h3>
 
-TODO: short intro for non-tech. what is this repo about.
+---
 
-TODO: optional clarification for techs, if the short intro is not enough to understand what is this repo about.
+## Instalation
 
-## Install
-
-TODO
-
-## Getting Started
-
-TODO
-
-### Troubleshooting
-
-_(please use [issues](https://github.com/berty/REPLACEME))_
-
-## Development
-
-TODO
-
-### Architecture
-
-TODO
-
-### Testing
-
-TODO
+    $ npx expo install weshnet-expo
 
 ## Contributing
 
 [![Contribute to Berty](https://assets.berty.tech/files/contribute-contribute_v2--Contribute-berty-ultra-light.gif)](https://github.com/berty/community)
 
-If you want to help out, please see [CONTRIBUTING.md](./CONTRIBUTING.md).
+If you want to help out, please see [docs/developer-guide.md](./docs/developer-guide.md) and [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 This repository falls under the Berty [Code of Conduct](https://github.com/berty/community/blob/master/CODE_OF_CONDUCT.md).
 
@@ -63,5 +36,3 @@ Dual-licensed under [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) an
 `SPDX-License-Identifier: (Apache-2.0 OR MIT)`
 
 See the [COPYRIGHT](./COPYRIGHT) file for more details.
-# weshnet-expo
-Weshnet Expo Module

@@ -1,6 +1,6 @@
 {
   "name": "weshnet-expo",
-  "version": "0.1.0",
+  "version": "0.0.1",
   "description": "weshnet expo module",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/berty/weshnet-expo/issues"
   },
-  "author": "gfanton <8671905+gfanton@users.noreply.github.com> (berty)",
+  "author": "Berty Technologies <oss@berty.tech>",
   "license": "MIT",
   "homepage": "https://github.com/berty/weshnet-expo#readme",
   "dependencies": {},
