@@ -13,17 +13,6 @@ public class WeshnetExpoModule: Module {
             return WeshnetCoreHello("from golang")
         }
         
-        AsyncFunction("asyncResolveGo") { (message: String, promise: Promise) in
-            let block = PromiseBlock(promise: promise)
-            WeshnetCoreAsyncMethodResolve(message, block)
-        }
-
-        AsyncFunction("asyncRejectGo") { (promise: Promise) in
-            let block = PromiseBlock(promise: promise)
-            WeshnetCoreAsyncMethodReject(block)
-        }
-
-        
         Name("WeshnetExpo")
 
         // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
