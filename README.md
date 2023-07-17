@@ -15,9 +15,47 @@ Wesh Network Expo Module
 
 ---
 
+## Requirements
+
+- [Go](https://golang.org/doc/install) >= 1.19.7
 ## Instalation
 
-    $ npx expo install weshnet-expo
+Install the package in your project:
+
+```sh
+    # Expose ios and android native modules
+    # Ignore this step if you already have the 'ios' and 'android' folders in your project.
+    $ npx expo prebuild 
+
+    # Install the package
+    $ npx expo install @weshnet/expo
+
+    # Install the pods (it will run gomobile bind)
+    $ cd ios && pod install
+
+    # Run the app
+    $ npx expo run:ios
+```
+
+## Usage
+
+Add the following to your `App.js`:
+
+```tsx
+import { StatusBar } from 'expo-status-bar';
+import { StyleSheet, Text, View } from 'react-native';
+import * as WeshnetExpo from '@weshnet/expo';
+
+export default function App() {
+  return (
+    <View style={styles.container}>
+      <Text>{WeshnetExpo.hello('berty')}</Text>
+      <Text>Open up App.js to start working on your app!</Text>
+      <StatusBar style="auto" />
+    </View>
+  );
+}
+```
 
 ## Contributing
 

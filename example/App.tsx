@@ -1,13 +1,12 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useState, useEffect } from 'react';
-
-import * as wesh from 'weshnet-expo';
+import * as WeshnetExpo from '@weshnet/expo';
 
 export default function App() {
     const [peerID, setPeerID] = useState<string>()
 
     useEffect(() => {
-        wesh.init().then((client: any) => {
+        WeshnetExpo.init().then((client: any) => {
             client.serviceGetConfiguration().then((res: any) => {
                 setPeerID(res.peerId)
                 console.log(res)
