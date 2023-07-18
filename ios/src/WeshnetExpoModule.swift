@@ -1,53 +1,54 @@
 import ExpoModulesCore
 import WeshnetCore
 
-// Define specific errors for core initialization.
-enum WeshnetCoreInitializationError: Error {
-    case initializationFailed
-}
-
 // Redefine WeshnetError with more context.
-enum WeshnetError: Error {
-    case alreadyStarted
-    case notStarted
-    case coreError(NSError)
-    
-    var description: String {
-        switch self {
-        case .alreadyStarted:
-            return "Service has already started"
+open class WeshnetError: Exception {
+    public enum ErrorCase {
+        case notStarted
+        case coreError(NSError)
+    }
+
+    private var errorDescription: String
+
+    public init(_ error: ErrorCase, file: String = #fileID, line: UInt = #line, function: String = #function) {
+        switch error {
         case .notStarted:
-            return "Service hasn't started yet"
+            self.errorDescription = "Service hasn't started yet"
         case .coreError(let error):
-            return error.localizedDescription
+            self.errorDescription = error.localizedDescription
         }
+        super.init(file: file, line: line, function: function)
+    }
+
+    open override var reason: String {
+        return self.errorDescription
     }
 }
 
 public class WeshnetExpoModule: Module {
     var service: WeshnetCoreService?
-    
+
     public func definition() -> ModuleDefinition {
         Name("WeshnetExpo")
 
         AsyncFunction("init") { (promise: Promise) in
             do {
-                if self.service != nil {
-                    throw WeshnetError.alreadyStarted
+                if self.service == nil {
+                    self.service = try self.initializeCoreService()
                 }
-                
-                try self.initializeCoreService(promise: promise)
+
+                promise.resolve()
             } catch let err {
                 promise.reject(err)
             }
         }
-        
+
         AsyncFunction("invokeMethod") { (method: String, b64message: String, promise: Promise) in
             do {
                 guard let service = self.service else {
-                    throw WeshnetError.notStarted
+                    throw WeshnetError(.notStarted)
                 }
-                
+
                 let block = PromiseBlock(promise: promise)
                 service.invokeBridgeMethod(with: block, method: method, b64message: b64message)
             } catch let err {
@@ -55,15 +56,14 @@ public class WeshnetExpoModule: Module {
             }
         }
     }
-    
-    private func initializeCoreService(promise: Promise) throws {
+
+    private func initializeCoreService() throws -> WeshnetCoreService {
         var err: NSError?
-        
-        guard case self.service = WeshnetCoreNewService(&err) else {
-            throw WeshnetError.coreError(err!)
+
+        guard let service = WeshnetCoreNewService(&err) else {
+            throw WeshnetError(.coreError(err!))
         }
-        
-        promise.resolve()
+
+        return service
     }
 }
-

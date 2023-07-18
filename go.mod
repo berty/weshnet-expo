@@ -1,11 +1,10 @@
 module github.com/berty/weshnet-expo
 
-go 1.20
+go 1.19
 
 require (
 	berty.tech/weshnet v1.12.2
-	github.com/emicklei/proto v1.6.13
-	github.com/gfanton/grpcutil v0.0.0-20230711155623-4e2aa1f52ef0
+	github.com/gfanton/grpcutil v1.0.0
 	golang.org/x/mobile v0.0.0-20230531173138-3c911d8e3eda
 	google.golang.org/grpc v1.56.2
 )
