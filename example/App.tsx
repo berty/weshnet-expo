@@ -2,7 +2,6 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useState, useEffect } from 'react';
 
 import * as wesh from 'weshnet-expo';
-import { Suspense } from 'react';
 
 export default function App() {
     const [peerID, setPeerID] = useState<string>()

@@ -47,7 +47,7 @@ const makeStreamClient = <M extends pbjs.Method>(
 			}
 			this.started = true
 
-            var response: rpcmanager.rpcmanager.ClientStreamRecv.Reply
+            var response: rpcmanager.ClientStreamRecv.Reply
 
 			for (;;) {
 				response = await bridgeClient.clientStreamRecv({ streamId: streamid })

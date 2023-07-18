@@ -15,7 +15,6 @@ export function init(): any {
         .then(() => WeshnetExpoModule.init())
         .then(() => createServiceClient(protocol.ProtocolService, rpcBridgeImpl))
         .catch((err: any) => console.error('init error', err))
-
 }
 
 export function getRpcNative(): any {
