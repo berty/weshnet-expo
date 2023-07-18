@@ -1,34 +1,25 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useState, useEffect } from 'react';
 
-import * as WeshnetExpo from 'weshnet-expo';
+import * as wesh from 'weshnet-expo';
 
 export default function App() {
-    const [asyncMsg, setAsyncMsg] = useState('')
-    const [asyncError, setAsyncError] = useState<null | Error>(null)
-    useEffect(() => {
-        // execute async resolve
-        WeshnetExpo.asyncResolve("this is an async message")
-            .then((data: string) => {
-                setAsyncMsg(data)
-            }).catch((err: Error) => {
-                console.error('async resolve error:', err)
-            })
+    const [peerID, setPeerID] = useState<string>()
 
-        // execute async reject
-        WeshnetExpo.asyncReject()
-            .then(() => {
-                console.error("this resolve should not happen")
-            }).catch((err: Error) => {
-                setAsyncError(err)
+    useEffect(() => {
+        wesh.init().then((client: any) => {
+            client.serviceGetConfiguration().then((res: any) => {
+                setPeerID(res.peerId)
+                console.log(res)
             })
+        })
     }, [])
 
+    const loadingView = (<Text> Loading Weshnet... </Text>)
+    const weshView = (<Text>hello my peerid is: {peerID}</Text>)
     return (
         <View style={styles.container}>
-            <Text>{WeshnetExpo.hello('berty')}</Text>
-            <Text>async message: {asyncMsg}</Text>
-            <Text>async error: {asyncError?.message}</Text>
+            {!peerID ? loadingView : weshView}
         </View>
     );
 }

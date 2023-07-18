@@ -23,6 +23,8 @@ Pod::Spec.new do |s|
     'SWIFT_COMPILATION_MODE' => 'wholemodule',
   }
 
+  s.libraries = 'resolv'
+  s.frameworks = 'CoreBluetooth', 'MultipeerConnectivity'
   s.source_files = 'src/**/*.{h,m,mm,swift}'
   s.prepare_command = 'make -C .. build.ios'
   s.vendored_frameworks = "Frameworks/WeshnetCore.xcframework"
