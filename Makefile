@@ -75,3 +75,4 @@ output/android/core.aar: $(go_deps)
 	go run golang.org/x/mobile/cmd/gomobile bind -v -o $@ -target android $(make_dir)/framework/core
 
 include makefiles/asdf.mk
+include makefiles/grpc.mk
