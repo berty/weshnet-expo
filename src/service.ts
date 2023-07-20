@@ -1,7 +1,7 @@
 // @ts-nocheck
 import * as pbjs from 'protobufjs'
 
-// import { ServiceClientType } from './welsh-clients.gen'
+import { ServiceClientType } from './weshnet.types.gen'
 
 const lowerFirst = (str: string) => str.charAt(0).toLowerCase() + str.substring(1)
 
@@ -88,7 +88,7 @@ export const createServiceClient = <T extends typeof pbjs.rpc.Service, S extends
 	service: T,
 	rpcImpl: unknown,
 	middleware?: unknown,
-): any => {
+): ServiceClientType<S> => {
 	if (!service) {
 		throw new Error('invalid service')
 	}

@@ -39,6 +39,7 @@
     "@types/react": "^18.0.25",
     "expo-module-scripts": "^3.0.11",
     "expo-modules-core": "^1.5.4",
+    "handlebars": "^4.7.7",
     "protobufjs-cli": "^1.1.1",
     "ts-node": "^10.9.1"
   },

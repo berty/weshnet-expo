@@ -6,8 +6,8 @@ export default function App() {
     const [peerID, setPeerID] = useState<string>()
 
     useEffect(() => {
-        WeshnetExpo.init().then((client: any) => {
-            client.serviceGetConfiguration().then((res: any) => {
+        WeshnetExpo.init().then(client => {
+            client.serviceGetConfiguration({}).then((res) => {
                 setPeerID(res.peerId)
                 console.log(res)
             })

@@ -26,7 +26,7 @@ generate: generate.api
 
 ## node
 
-node_modules: package.json package-lock.json
+node_modules: package.json yarn.lock
 	yarn && touch $@
 
 ## proto
@@ -38,7 +38,10 @@ pbts := ./node_modules/.bin/pbts
 
 ### protocoltypes
 
-_generate.api.protocol: src/api/protocoltypes.pb.js src/api/protocoltypes.pb.d.ts
+_generate.api.protocol: src/api/protocoltypes.pb.js \
+						src/api/protocoltypes.pb.d.ts \
+						src/weshnet.types.gen.ts
+
 api/protocoltypes.proto: buf.yaml
 	mkdir -p $(dir $@)
 	buf export buf.build/berty/weshnet:$(PROTO_COMMIT_HASH) --output $(dir $@)
@@ -46,6 +49,9 @@ src/api/protocoltypes.pb.js: api/protocoltypes.proto
 	$(pbjs) -t json-module -w es6 -o $@ $<
 src/api/protocoltypes.pb.d.ts: api/protocoltypes.proto
 	$(pbjs) -t static-module $< | $(pbts) -o $@ -
+
+src/weshnet.types.gen.ts: api/protocoltypes.proto gen-clients.js
+	node gen-clients.js > $@
 
 ### rpcmanager
 

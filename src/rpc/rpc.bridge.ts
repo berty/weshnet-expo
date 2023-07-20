@@ -1,6 +1,7 @@
 import * as pbjs from 'protobufjs'
 
-import { rpcmanager } from '../api'
+import { rpcmanager } from '../api/index'
+import types from '../api/index.d'
 import { createServiceClient } from '../service'
 import { GRPCError, EOF } from '../error'
 // import { ServiceClientType } from '../welsh-clients.gen'
@@ -47,7 +48,8 @@ const makeStreamClient = <M extends pbjs.Method>(
 			}
 			this.started = true
 
-            var response: rpcmanager.ClientStreamRecv.Reply
+
+            var response: types.rpcmanager.ClientStreamRecv.Reply
 
 			for (;;) {
 				response = await bridgeClient.clientStreamRecv({ streamId: streamid })
