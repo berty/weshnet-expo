@@ -1,7 +1,7 @@
 {
-  "name": "weshnet-expo",
-  "version": "0.0.1",
-  "description": "weshnet expo module",
+  "name": "@weshnet/expo",
+  "version": "0.0.2",
+  "description": "Weshnet React Native Expo module",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "type": "module",
@@ -19,8 +19,10 @@
   "keywords": [
     "react-native",
     "expo",
-    "weshnet-expo",
-    "WeshnetExpo"
+    "weshnet",
+    "Weshnet-Expo",
+    "berty",
+    "@weshnet/expo"
   ],
   "repository": "https://github.com/berty/weshnet-expo",
   "bugs": {

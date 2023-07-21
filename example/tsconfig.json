@@ -3,8 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "weshnet-expo": ["../src/index"],
-      "weshnet-expo/*": ["../src/*"]
+      "@weshnet/expo": ["../src/index"],
+      "@weshnet/expo/*": ["../src/*"]
     }
   }
 }

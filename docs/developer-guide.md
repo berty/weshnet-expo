@@ -10,7 +10,7 @@
     $ make asdf.install_tools
 
     ### Install the project dependencies
-    $ yarn install
+    $ npm install
 
     ### Build the project for IOS
     $ make build.ios
@@ -31,7 +31,7 @@ Let's start by pushing the package to the local registry:
     $ npm adduser --registry http://localhost:4873
 
     ### In the root folder, push the package to the local registry
-    $ yarn publish --registry http://localhost:4873
+    $ npm publish --registry http://localhost:4873
 
 ### Architecture
 

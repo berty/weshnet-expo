@@ -6,7 +6,7 @@ module.exports = async (env, argv) => {
     {
       ...env,
       babel: {
-        dangerouslyAddModulePathsToTranspile: ['weshnet-expo'],
+        dangerouslyAddModulePathsToTranspile: ['@weshnet/expo'],
       },
     },
     argv
