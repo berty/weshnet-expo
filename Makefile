@@ -3,14 +3,15 @@ default_deps := node_modules Makefile
 
 ### ARGS
 OUTPUT_FRAMEWORK ?= $(make_dir)/ios/Frameworks/WeshnetCore.xcframework
+OUTPUT_AAR ?= $(make_dir)/android/libs/WeshnetCore.aar
 PROTO_COMMIT_HASH ?= c72d5759847b4dedb5411c19485e1a37
 
 # commands
 
-all build: build.ios build.android
+all build: generate build.ios build.android
 
 build.ios: generate $(OUTPUT_FRAMEWORK)
-build.android: generate output/android/core.aar
+build.android:  generate $(OUTPUT_AAR)
 
 generate: api.generate
 
@@ -62,7 +63,7 @@ _api.clean.rpcmanager:
 api/rpcmanager.proto: go.sum go.mod
 	go run github.com/gfanton/grpcutil/rpcmanager/protofile > $@
 src/api/rpcmanager.pb.js: api/rpcmanager.proto
-	$(pbjs) -t json-module -w es6 -o $@ $<
+	$(pbjs) -t json-module -w commonjs -o $@ $<
 src/api/rpcmanager.pb.d.ts: api/rpcmanager.proto
 	$(pbjs) -t static-module $< | $(pbts) -o $@ -
 
@@ -70,33 +71,46 @@ src/api/rpcmanager.pb.d.ts: api/rpcmanager.proto
 
 ## go bind
 
-bind.init: $(TMPDIR)/.tool-versions .cache/bind/gomobile
-.cache/bind/gomobile: go.sum go.mod
+### init
+
+gomobile := $(make_dir)/.cache/bind/gomobile
+
+bind.init: $(TMPDIR)/.tool-versions $(gomobile)
+$(gomobile): go.sum go.mod
 	@mkdir -p $(dir $@)
 	go build -o $@ golang.org/x/mobile/cmd/gomobile && chmod +x $@
-	$@ init
-# FIXME(gfanton): find a more elegant way to make asdf works in the tmp directory
+	$(gomobile) init || (rm -f $@ && exit 1) # in case of failure, remove gomobile so we can init again
+
+# FIXME(gfanton): find a more elegant wxay to make asdf works in the tmp directory
 $(TMPDIR)/.tool-versions: .tool-versions
 	@echo "> copying current `.tool-versions` in '$(TMPDIR)' folder in order to make asdf works"
 	@echo "> this hack is needed in order for gomobile (who is building from '$(TMPDIR)') bind to use the correct javac and go version"
 	@cp -v $< $@
-bind.clean: _bind.clean.framework
-	rm -f $(TMPDIR)/.tool-versions
-	rm -rf .cache/bind
 
 # use `nowatchdog` tags to build, see https://github.com/libp2p/go-libp2p-connmgr/issues/98
 go_files := $(shell find . -iname '*.go')
 go_deps := go.mod go.sum $(go_files)
+
 $(OUTPUT_FRAMEWORK): bind.init $(go_deps)
 	@mkdir -p $(dir $@)
-	.cache/bind/gomobile bind -v \
+	$(gomobile) bind -v \
 		-tags 'nowatchdog' -prefix=Weshnet \
 		-o $@ -target ios $(make_dir)/framework/core
 _bind.clean.framework:
 	rm -rf $(OUTPUT_FRAMEWORK)
 
-output/android/core.aar: bind.init $(go_deps)
+$(OUTPUT_AAR):  $(go_deps)
 	@mkdir -p $(dir $@)
-	.cache/bind/gomobile bind -v -o $@ -target android $(make_dir)/framework/core
+	echo "$@"
+	exit 1
+	$(gomobile) bind -v \
+		-classpath=network.weshnet.core \
+		-o $@ -target android $(make_dir)/framework/core
+_bind.clean.aar:
+	rm -rf $(OUTPUT_AAR)
+
+bind.clean: _bind.clean.framework _bind.clean.aar
+	rm -f $(TMPDIR)/.tool-versions
+	rm -f $(gomobile)
 
 include makefiles/asdf.mk
