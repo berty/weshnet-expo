@@ -19,13 +19,10 @@ on:
 jobs:
   build-and-lint:
     runs-on: ubuntu-latest
-    name: Build, lint and test JS
+    name: Build, lint and test
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-
-      - name: Setup asdf
-        uses: asdf-vm/actions/setup@v1
 
       - name: Setup node
         run: |
@@ -53,6 +50,9 @@ jobs:
 
       - name: Set TMPDIR environment variable
         run: echo "TMPDIR=${{ runner.temp }}" >> $GITHUB_ENV
+
+      - name: Setup asdf
+        uses: asdf-vm/actions/setup@v2
 
       - name: Build IOS
         run: make build.ios
