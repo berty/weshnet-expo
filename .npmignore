@@ -15,3 +15,4 @@ __tests__
 
 # Exclude frameworks
 /ios/Frameworks
+/android/libs
