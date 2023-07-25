@@ -24,16 +24,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Setup node
+      - name: Setup asdf
+        uses: asdf-vm/actions/setup@v2
+
+      - name: Setup tools
         run: |
-          asdf plugin add nodejs
-          asdf install nodejs
+          make asdf.install_plugins
+          echo "$(asdf current ruby -v)"
           echo "node_version=$(asdf current nodejs | xargs | cut -d ' ' -f 2)" >> $GITHUB_ENV
 
-      - name: Setup yarn
-        run: |
-          asdf plugin add yarn
-          asdf install yarn
+      # - name: Setup yarn
+      #   run: |
+      #     asdf plugin add yarn
+      #     asdf install yarn
 
       - name: Cache node modules
         uses: actions/cache@v2.1.6
@@ -50,9 +53,6 @@ jobs:
 
       - name: Set TMPDIR environment variable
         run: echo "TMPDIR=${{ runner.temp }}" >> $GITHUB_ENV
-
-      - name: Setup asdf
-        uses: asdf-vm/actions/setup@v2
 
       - name: Build IOS
         run: make build.ios
