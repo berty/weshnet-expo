@@ -70,18 +70,18 @@ src/api/rpcmanager.pb.d.ts: api/rpcmanager.proto
 
 ## go bind
 
-bind.init: $(TMP)/.tool-versions .cache/bind/gomobile
+bind.init: $(TMPDIR)/.tool-versions .cache/bind/gomobile
 .cache/bind/gomobile: go.sum go.mod
 	@mkdir -p $(dir $@)
 	go build -o $@ golang.org/x/mobile/cmd/gomobile && chmod +x $@
 	$@ init
 # FIXME(gfanton): find a more elegant way to make asdf works in the tmp directory
-$(TMP)/.tool-versions: .tool-versions
-	@echo "> copying current `.tool-versions` in '$(TMP)' folder in order to make asdf works"
-	@echo "> this hack is needed in order for gomobile (who is building from '$(TMP)') bind to use the correct javac and go version"
+$(TMPDIR)/.tool-versions: .tool-versions
+	@echo "> copying current `.tool-versions` in '$(TMPDIR)' folder in order to make asdf works"
+	@echo "> this hack is needed in order for gomobile (who is building from '$(TMPDIR)') bind to use the correct javac and go version"
 	@cp -v $< $@
 bind.clean: _bind.clean.framework
-	rm -f $(TMP)/.tool-versions
+	rm -f $(TMPDIR)/.tool-versions
 	rm -rf .cache/bind
 
 # use `nowatchdog` tags to build, see https://github.com/libp2p/go-libp2p-connmgr/issues/98
