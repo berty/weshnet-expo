@@ -1,5 +1,5 @@
 name: Build
-run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+run-name: Building to ${{ inputs.deploy_target }} by @${{ github.actor }}
 on:
   push:
     tags:
@@ -50,6 +50,9 @@ jobs:
 
       # - name: Lint
       #   run: make lint
+
+      - name: Set TMPDIR environment variable
+        run: echo "TMPDIR=${{ runner.temp }}" >> $GITHUB_ENV
 
       - name: Build IOS
         run: make build.ios
