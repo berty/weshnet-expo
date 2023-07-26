@@ -1,7 +1,9 @@
 /*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
-import * as $protobuf from "protobufjs/light";
+"use strict";
 
-const $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $protobuf.Root()))
+var $protobuf = require("protobufjs/light");
+
+var $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $protobuf.Root()))
 .addJSON({
   rpcmanager: {
     options: {
@@ -320,4 +322,4 @@ const $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $
   }
 });
 
-export { $root as default };
+module.exports = $root;

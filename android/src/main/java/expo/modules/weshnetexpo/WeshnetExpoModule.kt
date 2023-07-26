@@ -1,47 +1,56 @@
 package expo.modules.weshnetexpo
 
+import expo.modules.kotlin.Promise
+import expo.modules.kotlin.exception.CodedException
 import expo.modules.kotlin.modules.Module
 import expo.modules.kotlin.modules.ModuleDefinition
+import network.weshnet.core.Service
+import network.weshnet.core.Core
 
 class WeshnetExpoModule : Module() {
-  // Each module class must implement the definition function. The definition consists of components
-  // that describes the module's functionality and behavior.
-  // See https://docs.expo.dev/modules/module-api for more details about available components.
-  override fun definition() = ModuleDefinition {
-    // Sets the name of the module that JavaScript code will use to refer to the module. Takes a string as an argument.
-    // Can be inferred from module's class name, but it's recommended to set it explicitly for clarity.
-    // The module will be accessible from `requireNativeModule('WeshnetExpo')` in JavaScript.
-    Name("WeshnetExpo")
+    private var service: Service? = null
 
-    // Sets constant properties on the module. Can take a dictionary or a closure that returns a dictionary.
-    Constants(
-      "PI" to Math.PI
-    )
+    // Each module class must implement the definition function. The definition consists of components
+    // that describes the module's functionality and behavior.
+    // See https://docs.expo.dev/modules/module-api for more details about available components.
+    override fun definition() = ModuleDefinition {
+        Name("WeshnetExpo")
 
-    // Defines event names that the module can send to JavaScript.
-    Events("onChange")
+        AsyncFunction("init") { promise: Promise ->
+            try {
+                if (service == null) {
+                    service = initializeCoreService()
+                }
+                promise.resolve("")
+            } catch (err: CodedException) {
+                promise.reject(err)
+            }
+        }
 
-    // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
-    Function("hello") {
-      "Hello world! 👋"
+        // Defines a JavaScript function that always returns a Promise and whose native code
+        // is by default dispatched on a different thread than the JavaScript runtime runs on.
+        AsyncFunction("invokeMethod") { method: String, b64message: String, promise: Promise ->
+            try {
+                service?.let {
+                    val block = PromiseBlock(promise)
+                    it.invokeBridgeMethodWithPromiseBlock(block, method, b64message)
+                } ?: run {
+                    throw WeshnetNotStartedError()
+                }
+            } catch (err: CodedException) {
+                promise.reject(err)
+            }
+        }
     }
 
-    // Defines a JavaScript function that always returns a Promise and whose native code
-    // is by default dispatched on the different thread than the JavaScript runtime runs on.
-    AsyncFunction("setValueAsync") { value: String ->
-      // Send an event to JavaScript.
-      sendEvent("onChange", mapOf(
-        "value" to value
-      ))
+    @Throws(CodedException::class)
+    private fun initializeCoreService(): Service {
+        // Add logic to create and return your service instance
+        // If an error occurs, throw WeshnetError2.kt
+        try {
+            return Core.newService()
+        } catch (err: Exception) {
+            throw WeshnetCoreError(err)
+        }
     }
-
-    // Enables the module to be used as a native view. Definition components that are accepted as part of
-    // the view definition: Prop, Events.
-    View(WeshnetExpoView::class) {
-      // Defines a setter for the `name` prop.
-      Prop("name") { view: WeshnetExpoView, prop: String ->
-        println(prop)
-      }
-    }
-  }
 }
