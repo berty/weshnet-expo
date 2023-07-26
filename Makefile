@@ -145,3 +145,10 @@ _bind.clean.android:
 
 bind.clean: _bind.clean.ios _bind.clean.android
 	rm -f $(bind_init_files)
+
+# lint
+
+lint: 
+	yarn prettier . --write
+
+include makefiles/asdf.mk
