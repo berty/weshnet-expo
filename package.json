@@ -1,7 +1,7 @@
 {
-  "name": "@weshnet/expo",
-  "version": "0.0.2",
-  "description": "Weshnet React Native Expo module",
+  "name": "@berty/weshnet-expo",
+  "version": "0.0.1",
+  "description": "Wesh Network React Native Expo module",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "type": "module",
@@ -22,7 +22,7 @@
     "weshnet",
     "Weshnet-Expo",
     "berty",
-    "@weshnet/expo"
+    "@berty/weshnet-expo"
   ],
   "repository": "https://github.com/berty/weshnet-expo",
   "bugs": {
@@ -30,7 +30,7 @@
   },
   "author": "Berty Technologies <oss@berty.tech>",
   "license": "MIT",
-  "homepage": "https://github.com/berty/weshnet-expo#readme",
+  "homepage": "https://wesh.network",
   "dependencies": {
     "base64-js": "^1.5.1",
     "protobufjs": "^7.2.4"

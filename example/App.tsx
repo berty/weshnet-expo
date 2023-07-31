@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { useState, useEffect } from 'react';
-import * as WeshnetExpo from '@weshnet/expo';
+import * as WeshnetExpo from '@berty/weshnet-expo';
 
 export default function App() {
     const [peerID, setPeerID] = useState<string>()

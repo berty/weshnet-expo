@@ -145,3 +145,7 @@ _bind.clean.android:
 
 bind.clean: _bind.clean.ios _bind.clean.android
 	rm -f $(bind_init_files)
+
+include makefiles/utils.mk
+include makefiles/asdf.mk
+include makefiles/npm.mk
