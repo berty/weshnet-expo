@@ -1,6 +1,6 @@
 {
   "name": "@berty/weshnet-expo",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Wesh Network React Native Expo module",
   "main": "build/index.js",
   "types": "build/index.d.ts",
