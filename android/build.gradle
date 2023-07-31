@@ -5,6 +5,17 @@ apply plugin: 'maven-publish'
 group = 'expo.modules.weshnetexpo'
 version = '0.1.0'
 
+// Define the custom task to run the make build command
+task makeBuild(type: Exec) {
+    workingDir '..'
+    commandLine 'make', 'build.android'
+}
+
+// Make the build depend on the makeBuild task
+tasks.named('preBuild').configure {
+    dependsOn(makeBuild)
+}
+
 buildscript {
   def expoModulesCorePlugin = new File(project(":expo-modules-core").projectDir.absolutePath, "ExpoModulesCorePlugin.gradle")
   if (expoModulesCorePlugin.exists()) {
@@ -84,6 +95,7 @@ repositories {
 }
 
 dependencies {
+  implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
   implementation project(':expo-modules-core')
   implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${getKotlinVersion()}"
 }
