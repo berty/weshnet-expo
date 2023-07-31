@@ -136,7 +136,7 @@ $(weshnetcore_aar): $(bind_init_files) $(go_deps)
 	@mkdir -p $(dir $@) .cache/bind/android
 	$(gomobile) bind -v \
 		-javapkg=network.weshnet \
-		-o $@ -target android ./framework/core
+		-o $@ -target android -androidapi 21 ./framework/core
 _bind.clean.android:
 	rm -rf $(weshnetcore_jar) $(weshnetcore_aar)
 
