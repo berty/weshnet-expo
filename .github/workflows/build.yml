@@ -1,0 +1,59 @@
+name: Build
+run-name: Building to ${{ inputs.deploy_target }} by @${{ github.actor }}
+on:
+  push:
+    tags:
+      - v*
+    branches:
+      - master
+    # paths:
+    #   - "js/**"
+    #   - "config/**"
+    #   - ".github/workflows/js.yml"
+  pull_request:
+    # paths:
+    #   - "js/**"
+    #   - "config/**"
+    #   - ".github/workflows/js.yml"
+
+jobs:
+  build-and-lint:
+    runs-on: ubuntu-latest
+    name: Build, lint and test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup asdf
+        uses: asdf-vm/actions/setup@v2
+
+      - name: Setup tools
+        run: |
+          make asdf.install_plugins
+          echo "$(asdf current ruby -v)"
+          echo "node_version=$(asdf current nodejs | xargs | cut -d ' ' -f 2)" >> $GITHUB_ENV
+
+      # - name: Setup yarn
+      #   run: |
+      #     asdf plugin add yarn
+      #     asdf install yarn
+
+      - name: Cache node modules
+        uses: actions/cache@v2.1.6
+        with:
+          path: node_modules
+          key:          ${{ runner.OS }}-node-${{ env.node_version }}-${{ hashFiles('yarn.lock') }}
+          restore-keys: ${{ runner.OS }}-node-${{ env.node_version }}-
+
+      - name: Fetch common node modules
+        run: make node_modules
+
+      # - name: Lint
+      #   run: make lint
+
+      - name: Set TMPDIR environment variable
+        run: echo "TMPDIR=${{ runner.temp }}" >> $GITHUB_ENV
+
+      - name: Build IOS
+        run: make build.ios
+
