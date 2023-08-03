@@ -1,5 +1,4 @@
 import * as fs from 'fs'
-import * as pbjs from 'protobufjs'
 
 // Check if two arguments are provided
 if (process.argv.length < 4) {

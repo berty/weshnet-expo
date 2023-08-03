@@ -20,6 +20,7 @@ module.exports = {
     'no-mixed-spaces-and-tabs': ['error', 'smart-tabs'],
     'react/react-in-jsx-scope': 2,
     '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/ban-ts-comment': 'warn',
     'import/order': [
       'error',
       {

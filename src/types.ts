@@ -3,7 +3,7 @@ import { GRPCError } from './error'
 export type RequestStream<
   Request extends object,
   Reply extends object,
-> = ({}) => Promise<{
+> = () => Promise<{
   emit: (r: Request) => Promise<void>;
   stopAndRecv: () => Promise<Reply>;
   stop: () => Promise<void>;

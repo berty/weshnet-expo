@@ -1,12 +1,12 @@
 import * as WeshnetExpo from '@weshnet/expo'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 export default function App() {
   const [peerID, setPeerID] = useState<string>()
 
   useEffect(() => {
-    WeshnetExpo.init().then(client => {
+    WeshnetExpo.init().then((client) => {
       client.serviceGetConfiguration({}).then((res) => {
         setPeerID(res.peerId)
         console.log(res)
@@ -14,12 +14,10 @@ export default function App() {
     })
   }, [])
 
-  const loadingView = (<Text> Loading Weshnet... </Text>)
-  const weshView = (<Text>hello my peerid is: {peerID}</Text>)
+  const loadingView = <Text> Loading Weshnet... </Text>
+  const weshView = <Text>hello my peerid is: {peerID}</Text>
   return (
-    <View style={styles.container}>
-      {!peerID ? loadingView : weshView}
-    </View>
+    <View style={styles.container}>{!peerID ? loadingView : weshView}</View>
   )
 }
 

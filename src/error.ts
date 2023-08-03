@@ -1,5 +1,3 @@
-import { reduce } from 'lodash'
-
 import api from './api'
 import types from './api/index.d'
 
