@@ -4,6 +4,7 @@
 
 # Cache
 .cache
+.eslintcache
 
 # VSCode
 .vscode/

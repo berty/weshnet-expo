@@ -6,11 +6,11 @@ export const serializeToBase64 = (req: Uint8Array) => base64.fromByteArray(req)
 export const deserializeFromBase64 = (b64: string) => new Uint8Array(base64.toByteArray(b64))
 
 export const getServiceName = <T extends pb.Method>(method: T) => {
-	const fullName = method.parent?.fullName
-	if (fullName?.startsWith('.')) {
-		return fullName.substring(1)
-	}
-	return fullName
+  const fullName = method.parent?.fullName
+  if (fullName?.startsWith('.')) {
+    return fullName.substring(1)
+  }
+  return fullName
 }
 
 // Error
