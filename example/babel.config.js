@@ -1,6 +1,6 @@
-const path = require('path');
+const path = require('path') /* eslint-disable-line @typescript-eslint/no-var-requires */
 module.exports = function (api) {
-  api.cache(true);
+  api.cache(true)
   return {
     presets: ['babel-preset-expo'],
     plugins: [
@@ -15,5 +15,5 @@ module.exports = function (api) {
         },
       ],
     ],
-  };
-};
+  }
+}

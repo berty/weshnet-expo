@@ -47,6 +47,7 @@ generate: api.generate
 
 # Clean all generated files
 clean: api.clean bind.clean
+	rm -rf .eslintcache
 
 # Force clean (clean and remove node_modules)
 fclean: clean
@@ -145,3 +146,15 @@ _bind.clean.android:
 
 bind.clean: _bind.clean.ios _bind.clean.android
 	rm -f $(bind_init_files)
+
+# lint
+
+lint: node_modules
+	npx eslint --cache --quiet --ext=.js,.jsx,.ts,.tsx .
+	npx tsc # check static typing
+
+lint.fix: node_modules
+	npx eslint --cache --quiet --ext=.js,.jsx,.ts,.tsx --fix .
+	npx tsc # check static typing
+
+include makefiles/asdf.mk
