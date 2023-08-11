@@ -65,7 +65,7 @@ If you want to help out, please see [docs/developer-guide.md](./docs/developer-g
 
 This repository falls under the Berty [Code of Conduct](https://github.com/berty/community/blob/master/CODE_OF_CONDUCT.md).
 
-You can contact us on the [`#dev-💻`](https://crpt.fyi/berty-dev-discord) channel on [discord](https://crpt.fyi/berty-discord).
+You can contact us on the [`#questions-❓`](https://crpt.fyi/berty-dev-discord) channel on [discord](https://crpt.fyi/berty-discord).
 
 ## License
 
