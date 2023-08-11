@@ -28,7 +28,7 @@ Install the package in your project:
     $ npx expo prebuild 
 
     # Install the package
-    $ npx expo install @weshnet/expo
+    $ npx expo install @berty/weshnet-expo
 
     # Install the pods (it will run gomobile bind)
     $ cd ios && pod install
@@ -44,7 +44,7 @@ Add the following to your `App.js`:
 ```tsx
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import * as WeshnetExpo from '@weshnet/expo';
+import * as WeshnetExpo from '@berty/weshnet-expo';
 
 export default function App() {
   return (

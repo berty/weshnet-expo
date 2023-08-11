@@ -157,4 +157,6 @@ lint.fix: node_modules
 	npx eslint --cache --quiet --ext=.js,.jsx,.ts,.tsx --fix .
 	npx tsc # check static typing
 
+include makefiles/utils.mk
 include makefiles/asdf.mk
+include makefiles/npm.mk

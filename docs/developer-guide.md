@@ -10,7 +10,7 @@
     $ make asdf.install_tools
 
     ### Install the project dependencies
-    $ npm install
+    $ yarn install
 
     ### Build the project for IOS
     $ make build.ios
@@ -33,6 +33,11 @@ Let's start by pushing the package to the local registry:
     ### In the root folder, push the package to the local registry
     $ npm publish --registry http://localhost:4873
 
+### Publishing the package on NPM
+
+To publish the package on NPM, you need to be a member of the [@berty](https://www.npmjs.com/org/berty) organization. Then, you can run the following command:
+
+    $ make npm.publish
 ### Architecture
 
 TODO
