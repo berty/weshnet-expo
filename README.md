@@ -4,6 +4,9 @@
 <h1 align="center">
 Wesh Network Expo Module
 </h1>
+<h2>
+<mark>🚧 This project is work In Progress. This library cannot be used yet.</mark>
+</h2>
 <p align="center">
     <a href="https://crpt.fyi/berty-discord"><img alt="discord" src="https://img.shields.io/badge/discord-gray?logo=discord" /></a>
     <a href="https://github.com/berty"><img alt="github" src="https://img.shields.io/badge/@berty-471961?logo=github" /></a>
