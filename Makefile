@@ -1,5 +1,8 @@
 SHELL := /bin/bash
 
+# Get the temporary directory of the system
+TMPDIR := $(shell dirname $(shell mktemp -u))
+
 # Define the directory that contains the current Makefile
 make_dir := $(realpath $(dir $(abspath $(lastword $(MAKEFILE_LIST)))))
 cache_dir := $(make_dir)/.cache
@@ -7,7 +10,7 @@ cache_dir := $(make_dir)/.cache
 # Argument Defaults
 IOS_OUTPUT_FRAMEWORK_DIR ?= $(make_dir)/ios/Frameworks
 ANDROID_OUTPUT_LIBS_DIR ?= $(make_dir)/android/libs
-PROTOCOLTYPES_COMMIT_HASH ?= c72d5759847b4dedb5411c19485e1a37
+PROTOCOLTYPES_COMMIT_HASH ?= efac414f167a4070914049071ffd9d63
 GO_BIND_BIN_DIR ?= $(cache_dir)/bind
 
 # IOS definitions
@@ -71,16 +74,16 @@ _api.generate.protocol: src/api/protocoltypes.pb.js \
 						src/api/protocoltypes.pb.d.ts \
 						src/weshnet.types.gen.ts
 _api.clean.protocol:
-	rm -f src/api/protocoltypes.pb.js src/api/protocoltypes.pb.d.ts src/weshnet.types.gen.ts
+	rm -f src/vendor src/api/protocoltypes.pb.js src/api/protocoltypes.pb.d.ts src/weshnet.types.gen.ts
 
-api/protocoltypes.proto: buf.yaml
+api/vendor/protocoltypes.proto:
 	mkdir -p $(dir $@)
-	buf export buf.build/berty/weshnet:$(PROTOCOLTYPES_COMMIT_HASH) --output $(dir $@)
-src/api/protocoltypes.pb.js: api/protocoltypes.proto
+	buf export buf.build/berty-technologies/weshnet:$(PROTOCOLTYPES_COMMIT_HASH) --output $(dir $@)
+src/api/protocoltypes.pb.js: api/vendor/protocoltypes.proto
 	$(pbjs) -t json-module -w es6 -o $@ $<
-src/api/protocoltypes.pb.d.ts: api/protocoltypes.proto
+src/api/protocoltypes.pb.d.ts: api/vendor/protocoltypes.proto
 	$(pbjs) -t static-module $< | $(pbts) -o $@ -
-src/weshnet.types.gen.ts: api/protocoltypes.proto gen-clients.js
+src/weshnet.types.gen.ts: api/vendor/protocoltypes.proto gen-clients.js
 	node gen-clients.js > $@
 
 # - API - rpcmanager

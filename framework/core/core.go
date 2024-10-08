@@ -4,8 +4,8 @@ import (
 	"context"
 	"fmt"
 
-	"berty.tech/weshnet"
-	"berty.tech/weshnet/pkg/protocoltypes"
+	"berty.tech/weshnet/v2"
+	"berty.tech/weshnet/v2/pkg/protocoltypes"
 	"github.com/gfanton/grpcutil/lazy"
 	"github.com/gfanton/grpcutil/pipe"
 	"github.com/gfanton/grpcutil/rpcmanager"
