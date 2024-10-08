@@ -50,7 +50,7 @@ class WeshnetExpoModule : Module() {
         try {
             return Core.newService()
         } catch (err: Exception) {
-            throw WeshnetCoreError(err)
+            throw err
         }
     }
 }
