@@ -3,9 +3,18 @@ import WeshnetCore
 
 public class WeshnetExpoModule: Module {
     var service: WeshnetCoreService?
+    var appRootDir: String?
 
     public func definition() -> ModuleDefinition {
         Name("WeshnetExpo")
+        
+        OnCreate {
+          do {
+            self.appRootDir = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path
+          } catch let error as NSError {
+              NSLog("Error creating app root directory: \(error.localizedDescription)")
+          }
+        }
 
         AsyncFunction("init") { (promise: Promise) in
             do {
@@ -36,7 +45,12 @@ public class WeshnetExpoModule: Module {
     private func initializeCoreService() throws -> WeshnetCoreService {
         var err: NSError?
 
-        guard let service = WeshnetCoreNewService(&err) else {
+        guard let config = WeshnetCoreBridgeConfig() else {
+          throw WeshnetError(.createConfig)
+        }
+        config.rootDir = self.appRootDir!
+        
+        guard let service = WeshnetCoreNewService(config, &err) else {
             throw WeshnetError(.coreError(err!))
         }
 

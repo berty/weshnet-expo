@@ -7,9 +7,7 @@ toolchain go1.23.2
 require (
 	berty.tech/berty/v2 v2.470.3
 	berty.tech/weshnet/v2 v2.0.1
-	github.com/dgraph-io/badger v1.6.2
 	github.com/gfanton/grpcutil v1.0.0
-	github.com/ipfs/go-ds-badger v0.3.0
 	github.com/multiformats/go-multiaddr v0.12.4
 	go.uber.org/zap v1.27.0
 	golang.org/x/mobile v0.0.0-20230531173138-3c911d8e3eda
@@ -49,6 +47,7 @@ require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/davidlazar/go-crypto v0.0.0-20200604182044-b73af7476f6c // indirect
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.3.0 // indirect
+	github.com/dgraph-io/badger v1.6.2 // indirect
 	github.com/dgraph-io/badger/v2 v2.2007.3 // indirect
 	github.com/dgraph-io/ristretto v0.0.3 // indirect
 	github.com/dgryski/go-farm v0.0.0-20190423205320-6a90982ecee2 // indirect
@@ -105,6 +104,7 @@ require (
 	github.com/ipfs/go-cid v0.4.1 // indirect
 	github.com/ipfs/go-cidutil v0.1.0 // indirect
 	github.com/ipfs/go-datastore v0.6.0 // indirect
+	github.com/ipfs/go-ds-badger v0.3.0 // indirect
 	github.com/ipfs/go-ds-badger2 v0.1.3 // indirect
 	github.com/ipfs/go-ds-flatfs v0.5.1 // indirect
 	github.com/ipfs/go-ds-leveldb v0.5.0 // indirect
@@ -286,6 +286,6 @@ require (
 
 // replace bazil.org/fuse => bazil.org/fuse v0.0.0-20200117225306-7b5117fecadc // specific version for iOS building
 replace (
-	berty.tech/weshnet/v2 => /home/rems14/weshnet
+	berty.tech/weshnet/v2 => /Users/remi/weshnet
 	github.com/multiformats/go-multiaddr => github.com/d4ryl00/go-multiaddr v0.0.0-20240808141024-75af21abbfc1 // tmp, required for Android SDK30
 )
