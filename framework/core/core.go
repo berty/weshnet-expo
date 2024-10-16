@@ -17,6 +17,8 @@ import (
 	"github.com/gfanton/grpcutil/lazy"
 	"github.com/gfanton/grpcutil/pipe"
 	"github.com/gfanton/grpcutil/rpcmanager"
+	ipfs_cfg "github.com/ipfs/kubo/config"
+	"github.com/libp2p/go-libp2p"
 	manet "github.com/multiformats/go-multiaddr/net"
 	"go.uber.org/zap"
 	"google.golang.org/grpc"
@@ -55,6 +57,8 @@ func NewBridgeConfig() *BridgeConfig {
 }
 
 func NewService(config *BridgeConfig) (*Service, error) {
+	close := func() error { return nil }
+
 	// setup config
 	if config == nil {
 		return nil, fmt.Errorf("config is nil")
@@ -67,13 +71,21 @@ func NewService(config *BridgeConfig) (*Service, error) {
 		if err != nil {
 			return nil, fmt.Errorf("unable to create root dir: %w", err)
 		}
+		close = closeFunc(close, func() error {
+			return os.RemoveAll(rootDir)
+		})
 	}
 
 	// setup service
 	ctx, cancel := context.WithCancel(context.Background())
+	close = closeFunc(close, func() error {
+		cancel()
+		return nil
+	})
 
 	logger, err := zap.NewDevelopment()
 	if err != nil {
+		cancel()
 		return nil, fmt.Errorf("unable to create logger: %w", err)
 	}
 
@@ -87,36 +99,43 @@ func NewService(config *BridgeConfig) (*Service, error) {
 	{
 		repo, err := ipfsutil.LoadRepoFromPath(config.RootDir)
 		if err != nil {
+			close()
 			return nil, err
 		}
 
 		mrepo := ipfs_mobile.NewRepoMobile(config.RootDir, repo)
 
-		mnode, err := ipfsutil.NewIPFSMobile(s.ctx, mrepo, &ipfsutil.MobileOptions{})
+		mopts := &ipfsutil.MobileOptions{
+			IpfsConfigPatch: func(cfg *ipfs_cfg.Config) ([]libp2p.Option, error) {
+				cfg.Discovery.MDNS.Enabled = false
+				p2popts := []libp2p.Option{}
+				return p2popts, nil
+			},
+		}
+
+		mnode, err := ipfsutil.NewIPFSMobile(s.ctx, mrepo, mopts)
 		if err != nil {
+			close()
 			return nil, err
 		}
 
 		s.ipfsCoreAPI, err = ipfsutil.NewExtendedCoreAPIFromNode(mnode.IpfsNode)
 		if err != nil {
+			close()
 			return nil, err
 		}
 
-		oldClose := s.close
-		s.close = func() error {
-			if oldClose != nil {
-				_ = oldClose()
-			}
-
+		close = closeFunc(close, func() error {
 			return mnode.Close()
-		}
+		})
 	}
 
 	// setup netdriver
 	{
 		if config.NetDriver != nil {
 			inet := &inet{
-				net: config.NetDriver,
+				net:    config.NetDriver,
+				logger: logger.Named("NetDriver"),
 			}
 			mdns.SetNetDriver(inet)
 			manet.SetNetInterface(inet)
@@ -152,31 +171,27 @@ func NewService(config *BridgeConfig) (*Service, error) {
 
 		go func() {
 			mdnsNetworkManagerConfig := mdns.NetworkManagerConfig{
-				Logger:     logger,
+				Logger:     mdnslogger,
 				NetManager: s.netmanager,
 				Service:    mdnsService,
 			}
 			mdns.NetworkManagerHandler(ctx, mdnsNetworkManagerConfig)
 		}()
 
-		oldClose := s.close
-		s.close = func() error {
-			if oldClose != nil {
-				_ = oldClose()
-			}
-
+		close = closeFunc(close, func() error {
 			mdnsService.Close()
 			s.mdnsLocker.Unlock()
-
 			return nil
-		}
+		})
 	}
 
 	s.service, err = weshnet.NewService(weshnet.Opts{
 		DatastoreDir: rootDir,
 		IpfsCoreAPI:  s.ipfsCoreAPI,
+		Logger:       logger.Named("weshnet"),
 	})
 	if err != nil {
+		close()
 		return nil, fmt.Errorf("unable to start service: %w", err)
 	}
 
@@ -191,8 +206,7 @@ func NewService(config *BridgeConfig) (*Service, error) {
 
 	s.client, err = listen.ClientConn(ctx)
 	if err != nil {
-		s.close()
-		cancel()
+		close()
 		return nil, fmt.Errorf("unable to create clien conn: %w", err)
 	}
 
@@ -209,6 +223,7 @@ func NewService(config *BridgeConfig) (*Service, error) {
 	}()
 
 	s.ServiceClient = NewServiceClient(lazy.NewClient(s.client))
+	s.close = close
 
 	return s, nil
 }
@@ -231,4 +246,13 @@ func (s *Service) HandleConnectivityUpdate(info *ConnectivityInfo) {
 
 func Hello(name string) string {
 	return fmt.Sprintf("hello %s", name)
+}
+
+func closeFunc(old func() error, new func() error) func() error {
+	return func() error {
+		if old != nil {
+			_ = old()
+		}
+		return new()
+	}
 }

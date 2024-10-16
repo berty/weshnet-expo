@@ -24,7 +24,8 @@
       "package": "expo.modules.weshnetexpo.example",
       "permissions": [
         "android.permission.READ_PHONE_STATE",
-        "android.permission.ACCESS_NETWORK_STATE"
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.CHANGE_WIFI_MULTICAST_STATE"
       ]
     },
     "web": {
