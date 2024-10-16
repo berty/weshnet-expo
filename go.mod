@@ -2,7 +2,7 @@ module github.com/berty/weshnet-expo
 
 go 1.22
 
-toolchain go1.23.2
+toolchain go1.22.4
 
 require (
 	berty.tech/berty/v2 v2.470.3
