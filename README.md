@@ -13,51 +13,69 @@ Wesh Network Expo Module
     <a href="https://twitter.com/weshnet"><img alt="twitter" src="https://img.shields.io/twitter/follow/berty?label=%40weshnet&style=flat&logo=twitter" /></a>
 </p>
 
-<h3 align="center">The Wesh network toolkit lets your application use the Wesh protocol to support privacy-based, off-grid, peer-to-peer communication.  
+<h3 align="center">The Wesh network toolkit lets your application use the Wesh protocol to support privacy-based, off-grid, peer-to-peer communication.
 <br/><br/>For details, see the Wesh website at <a href="https://wesh.network">https://wesh.network</a>. The website includes blog tutorials which introduce you to Wesh and walk you through some example applications and background of the Wesh protocol.</h3>
 
 ---
 
 ## Requirements
 
-- [Go](https://golang.org/doc/install) >= 1.19.7
+-   [Go](https://golang.org/doc/install) = 1.22.4
+
 ## Instalation
 
 Install the package in your project:
 
 ```sh
-    # Expose ios and android native modules
-    # Ignore this step if you already have the 'ios' and 'android' folders in your project.
-    $ npx expo prebuild 
-
-    # Install the package
-    $ npx expo install @berty/weshnet-expo
-
-    # Install the pods (it will run gomobile bind)
-    $ cd ios && pod install
-
-    # Run the app
-    $ npx expo run:ios
+# create new expo project
+npx create-expo-app my-app --template expo-template-blank-typescript
+cd my-app
+npx expo install @berty/weshnet-expo
 ```
 
 ## Usage
 
-Add the following to your `App.js`:
+Add the following to your `App.tsx`:
 
 ```tsx
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import * as WeshnetExpo from '@berty/weshnet-expo';
+import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View } from "react-native";
+
+import * as WeshnetExpo from "@berty/weshnet-expo";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>{WeshnetExpo.hello('berty')}</Text>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    const [peerID, setPeerID] = useState<string>();
+    useEffect(() => {
+        WeshnetExpo.init().then((client) => {
+            client.serviceGetConfiguration({}).then((res) => {
+                setPeerID(res.peerId);
+                console.log(res);
+            });
+        });
+    }, []);
+
+    const loadingView = <Text> Loading Weshnet... </Text>;
+    const weshView = <Text>hello my peerid is: {peerID}</Text>;
+    return (
+        <View style={styles.container}>{!peerID ? loadingView : weshView}</View>
+    );
+
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: "#fff",
+            alignItems: "center",
+            justifyContent: "center",
+        },
+    });
 }
+```
+
+## Example App
+
+```sh
+cd example
+make build.ios # or make build.android
 ```
 
 ## Contributing
