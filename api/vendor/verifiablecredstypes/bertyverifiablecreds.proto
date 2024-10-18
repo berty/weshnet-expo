@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+package weshnet.account.v1;
+
+option go_package = "berty.tech/weshnet/v2/pkg/verifiablecredstypes";
+
+// StateChallenge serialized and signed state used when requesting a challenge
+message StateChallenge {
+  bytes timestamp = 1;
+  bytes nonce = 2;
+  string berty_link = 3;
+  string redirect_uri = 4;
+  string state = 5;
+}
+
+// StateCode serialized and signed state used when requesting a code
+message StateCode {
+  bytes timestamp = 1;
+  string berty_link = 2;
+  CodeStrategy code_strategy = 3;
+  string identifier = 4;
+  string code = 5;
+  string redirect_uri = 6;
+  string state = 7;
+}
+
+message AccountCryptoChallenge {
+  string challenge = 1;
+}
+
+enum FlowType {
+  FlowTypeUndefined = 0;
+  // FlowTypeCode asks users a code sent on a side channel
+  FlowTypeCode = 1;
+  // FlowTypeAuth currently unimplemented
+  FlowTypeAuth = 2;
+  // FlowTypeProof currently unimplemented
+  FlowTypeProof = 3;
+}
+
+enum CodeStrategy {
+  CodeStrategyUndefined = 0;
+  // CodeStrategy6Digits currently unimplemented
+  CodeStrategy6Digits = 1;
+  // CodeStrategy10Chars currently unimplemented
+  CodeStrategy10Chars = 2;
+  // CodeStrategyMocked6Zeroes must only be used in testing
+  CodeStrategyMocked6Zeroes = 999;
+}

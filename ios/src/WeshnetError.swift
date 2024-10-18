@@ -1,8 +1,10 @@
+import ExpoModulesCore
 
 // Redefine WeshnetError with more context.
 open class WeshnetError: Exception {
     public enum ErrorCase {
         case notStarted
+        case createConfig
         case coreError(NSError)
     }
 
@@ -12,6 +14,8 @@ open class WeshnetError: Exception {
         switch error {
         case .notStarted:
             self.errorDescription = "Service hasn't started yet"
+        case .createConfig:
+            self.errorDescription = "Failed to create config"
         case .coreError(let error):
             self.errorDescription = error.localizedDescription
         }

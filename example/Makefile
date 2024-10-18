@@ -1,5 +1,7 @@
 METRO_RN_PORT ?= 8081
 IOS_DEVICE ?=
+ANDROID_DEVICE ?=
+EXPO_DEVICE_FLAG = --device
 
 ## Internal variables
 check-program = $(foreach exec,$(1),$(if $(shell PATH="$(PATH)" which $(exec)),,$(error "Missing deps: no '$(exec)' in PATH")))
@@ -9,17 +11,27 @@ node_modules: package.json
 	yarn $(if $(filter $(CI), true), --frozen-lockfile --network-timeout 1200000 --network-concurrency 1)
 	touch $@
 
-ios/weshnetexpoexample.xcworkspace: ios/weshnetexpoexample.xcodeproj ios/Podfile node_modules
+ios/weshnetexpoexample.xcworkspace: app.json node_modules
 	$(call check-program, pod)
-	cd ios pod install --repo-update
+	npx expo prebuild --clean -p ios
 	touch $@
 
 build.ios: ios/weshnetexpoexample.xcworkspace
 	$(call check-program, npx)
-	npx react-native run-ios \
-		--no-packager \
+	npx expo run:ios \
 		--port="$(METRO_RN_PORT)" \
-		$(if $(IOS_DEVICE),$(IOS_RN_FLAGS)='$(IOS_DEVICE)',)
+		$(if $(IOS_DEVICE),$(EXPO_DEVICE_FLAG)='$(IOS_DEVICE)',)
+
+android/app: app.json node_modules
+	$(call check-program, pod)
+	npx expo prebuild --clean -p android
+	touch $@
+
+build.android: android/app
+	$(call check-program, npx)
+	npx expo run:android \
+		--port="$(METRO_RN_PORT)" \
+		$(if $(ANDROID_DEVICE),$(EXPO_DEVICE_FLAG)='$(ANDROID_DEVICE)',)
 
 .PHONY: help
 help:

@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+package weshnet.replication.v1;
+
+import "protocoltypes.proto";
+import "tagger/tagger.proto";
+
+option go_package = "berty.tech/weshnet/v2/pkg/replicationtypes";
+
+// ReplicationService
+service ReplicationService {
+  // ReplicateGroup
+  rpc ReplicateGroup(ReplicationServiceReplicateGroup.Request) returns (ReplicationServiceReplicateGroup.Reply);
+
+  rpc ReplicateGlobalStats(ReplicateGlobalStats.Request) returns (ReplicateGlobalStats.Reply);
+
+  rpc ReplicateGroupStats(ReplicateGroupStats.Request) returns (ReplicateGroupStats.Reply);
+}
+
+message ReplicatedGroup {
+  string public_key = 1 [(tagger.tags) = "gorm:\"primaryKey\""];
+  string sign_pub = 2;
+  string link_key = 3;
+  int64 created_at = 100;
+  int64 updated_at = 101;
+  int64 metadata_entries_count = 102;
+  string metadata_latest_head = 103;
+  int64 message_entries_count = 104;
+  string message_latest_head = 105;
+}
+
+message ReplicatedGroupToken {
+  string replicated_group_public_key = 1 [(tagger.tags) = "gorm:\"index;primaryKey;autoIncrement:false\""];
+  ReplicatedGroup replicated_group = 2;
+  string token_issuer = 3 [(tagger.tags) = "gorm:\"primaryKey;autoIncrement:false\""];
+  string token_id = 4 [(tagger.tags) = "gorm:\"primaryKey;autoIncrement:false\""];
+  int64 created_at = 5;
+}
+
+message ReplicationServiceReplicateGroup {
+  message Request {
+    weshnet.protocol.v1.Group group = 1;
+  }
+  message Reply {
+    bool ok = 1;
+  }
+}
+
+message ReplicateGlobalStats {
+  message Request {}
+  message Reply {
+    int64 started_at = 1;
+    int64 replicated_groups = 2;
+    int64 total_metadata_entries = 3;
+    int64 total_message_entries = 4;
+  }
+}
+
+message ReplicateGroupStats {
+  message Request {
+    string group_public_key = 1;
+  }
+  message Reply {
+    ReplicatedGroup group = 1;
+  }
+}
