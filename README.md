@@ -22,6 +22,8 @@ Wesh Network Expo Module
 
 -   [Go](https://golang.org/doc/install) = 1.22.4
 
+Follow the [React Native requirements](https://reactnative.dev/docs/set-up-your-environment) and [Expo requirements](https://docs.expo.dev/get-started/set-up-your-environment) for your platform.
+
 ## Instalation
 
 Install the package in your project:
