@@ -73,6 +73,28 @@ export default function App() {
 }
 ```
 
+`weshnet` needs some system permissions to get the phone's connectivity status and make `mDNS` working. Edit your `app.json` to include the following permissions:
+
+```json
+{
+    "expo": {
+        "android": {
+            "permissions": [
+                "android.permission.READ_PHONE_STATE",
+                "android.permission.ACCESS_NETWORK_STATE",
+                "android.permission.CHANGE_WIFI_MULTICAST_STATE"
+            ]
+        }
+    }
+}
+```
+
+You need to update your native Android / iOS folders. If you have a `managed workflow` (learn more [here](https://medium.com/@mehro_z/choosing-between-managed-and-bare-workflow-in-expo-a-comprehensive-difference-7086305f1480), do the following (this command will delete and recreate the native folders!!!)
+
+```sh
+npx expo prebuild --clean
+```
+
 ## Example App
 
 ```sh
