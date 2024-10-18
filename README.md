@@ -89,7 +89,7 @@ export default function App() {
 }
 ```
 
-You need to update your native Android / iOS folders. If you have a `managed workflow` (learn more [here](https://medium.com/@mehro_z/choosing-between-managed-and-bare-workflow-in-expo-a-comprehensive-difference-7086305f1480), do the following (this command will delete and recreate the native folders!!!)
+You need to update your native Android / iOS folders. If you have a `managed workflow` (learn more [here](https://medium.com/@mehro_z/choosing-between-managed-and-bare-workflow-in-expo-a-comprehensive-difference-7086305f1480)), do the following (this command will delete and recreate the native folders!!!)
 
 ```sh
 npx expo prebuild --clean
