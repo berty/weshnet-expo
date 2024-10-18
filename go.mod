@@ -5,9 +5,11 @@ go 1.22
 toolchain go1.22.4
 
 require (
-	berty.tech/berty/v2 v2.470.3
-	berty.tech/weshnet/v2 v2.0.1
+	berty.tech/berty/v2 v2.470.4-0.20241018083235-99dde7a83e51
+	berty.tech/weshnet/v2 v2.0.3
 	github.com/gfanton/grpcutil v1.0.0
+	github.com/ipfs/kubo v0.29.0
+	github.com/libp2p/go-libp2p v0.34.1
 	github.com/multiformats/go-multiaddr v0.12.4
 	go.uber.org/zap v1.27.0
 	golang.org/x/mobile v0.0.0-20230531173138-3c911d8e3eda
@@ -132,7 +134,6 @@ require (
 	github.com/ipfs/go-peertaskqueue v0.8.1 // indirect
 	github.com/ipfs/go-unixfsnode v1.9.0 // indirect
 	github.com/ipfs/go-verifcid v0.0.3 // indirect
-	github.com/ipfs/kubo v0.29.0 // indirect
 	github.com/ipld/go-car v0.6.2 // indirect
 	github.com/ipld/go-car/v2 v2.13.1 // indirect
 	github.com/ipld/go-codec-dagpb v1.6.0 // indirect
@@ -148,7 +149,6 @@ require (
 	github.com/libp2p/go-cidranger v1.1.0 // indirect
 	github.com/libp2p/go-doh-resolver v0.4.0 // indirect
 	github.com/libp2p/go-flow-metrics v0.1.0 // indirect
-	github.com/libp2p/go-libp2p v0.34.1 // indirect
 	github.com/libp2p/go-libp2p-asn-util v0.4.1 // indirect
 	github.com/libp2p/go-libp2p-gostream v0.6.0 // indirect
 	github.com/libp2p/go-libp2p-http v0.5.0 // indirect
@@ -271,7 +271,9 @@ require (
 	golang.org/x/tools v0.21.1-0.20240508182429-e35e4ccd0d2d // indirect
 	golang.org/x/xerrors v0.0.0-20231012003039-104605ab7028 // indirect
 	gonum.org/v1/gonum v0.15.0 // indirect
-	google.golang.org/genproto v0.0.0-20230410155749-daa745c078e1 // indirect
+	google.golang.org/genproto v0.0.0-20240213162025-012b6fc9bca9 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20240528184218-531527333157 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20240604185151-ef581f913117 // indirect
 	google.golang.org/protobuf v1.34.2 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
@@ -285,7 +287,4 @@ require (
 )
 
 // replace bazil.org/fuse => bazil.org/fuse v0.0.0-20200117225306-7b5117fecadc // specific version for iOS building
-replace (
-	berty.tech/weshnet/v2 => /Users/remi/weshnet
-	github.com/multiformats/go-multiaddr => github.com/d4ryl00/go-multiaddr v0.0.0-20240808141024-75af21abbfc1 // tmp, required for Android SDK30
-)
+replace github.com/multiformats/go-multiaddr => github.com/d4ryl00/go-multiaddr v0.0.0-20240808141024-75af21abbfc1 // tmp, required for Android SDK30

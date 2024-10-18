@@ -9,7 +9,7 @@ const $root = ($protobuf.roots["default"] || ($protobuf.roots["default"] = new $
         nested: {
           v1: {
             options: {
-              go_package: "berty.tech/weshnet/pkg/protocoltypes"
+              go_package: "berty.tech/weshnet/v2/pkg/protocoltypes"
             },
             nested: {
               ProtocolService: {

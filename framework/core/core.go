@@ -7,11 +7,11 @@ import (
 	"runtime"
 	"sync"
 
+	"berty.tech/berty/v2/go/pkg/mdns"
 	"berty.tech/berty/v2/go/pkg/osversion"
 	"berty.tech/weshnet/v2"
 	"berty.tech/weshnet/v2/pkg/ipfsutil"
 	ipfs_mobile "berty.tech/weshnet/v2/pkg/ipfsutil/mobile"
-	"berty.tech/weshnet/v2/pkg/mdns"
 	"berty.tech/weshnet/v2/pkg/netmanager"
 	"berty.tech/weshnet/v2/pkg/protocoltypes"
 	"github.com/gfanton/grpcutil/lazy"

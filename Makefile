@@ -10,7 +10,7 @@ cache_dir := $(make_dir)/.cache
 # Argument Defaults
 IOS_OUTPUT_FRAMEWORK_DIR ?= $(make_dir)/ios/Frameworks
 ANDROID_OUTPUT_LIBS_DIR ?= $(make_dir)/android/libs
-PROTOCOLTYPES_COMMIT_HASH ?= efac414f167a4070914049071ffd9d63
+PROTOCOLTYPES_COMMIT_HASH ?= 62415a228a054c23a397b1c6689392d1
 GO_BIND_BIN_DIR ?= $(cache_dir)/bind
 
 # IOS definitions
