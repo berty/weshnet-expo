@@ -60,7 +60,7 @@ fclean: clean
 
 # - Node: Handle node_modules
 
-node_modules: package.json yarn.lock
+node_modules: package.json
 	(yarn && touch $@) || true
 
 # - API : Handle API generation and cleaning

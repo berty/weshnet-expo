@@ -17,9 +17,5 @@ __tests__
 /ios/Frameworks
 /android/libs
 
-# Excluding yarn.lock causes the local build to fail.
-# This is because the build is done on the host machine.
-!yarn.lock
-
 # Go compilation needs .tool-versions
 !.tool-versions
