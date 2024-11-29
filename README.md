@@ -37,7 +37,7 @@ npx expo install @berty/weshnet-expo
 
 ## Usage
 
-Add the following to your `App.tsx`:
+Open `App.tsx` and replace the contents with the following code:
 
 ```tsx
 import React, { useState, useEffect } from "react";
@@ -61,16 +61,16 @@ export default function App() {
     return (
         <View style={styles.container}>{!peerID ? loadingView : weshView}</View>
     );
-
-    const styles = StyleSheet.create({
-        container: {
-            flex: 1,
-            backgroundColor: "#fff",
-            alignItems: "center",
-            justifyContent: "center",
-        },
-    });
 }
+
+const styles = StyleSheet.create({
+  container: {
+      flex: 1,
+      backgroundColor: "#fff",
+      alignItems: "center",
+      justifyContent: "center",
+  },
+});
 ```
 
 `weshnet` needs some system permissions to get the phone's connectivity status and make `mDNS` working. Edit your `app.json` to include the following permissions:
