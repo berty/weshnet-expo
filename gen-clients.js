@@ -19,7 +19,7 @@ const services = ["weshnet.protocol.v1.ProtocolService"];
 
 // Prepare Handlebars templates
 const serviceClientTemplate = Handlebars.compile(`
-import api from './api/index.d'
+import { protocol } from "./api/index.d";
 import { Unary, ResponseStream, RequestStream } from './types'
 
 export type ServiceClientType<S> = {{#each services}} {{this}} {{/each}}never;
@@ -28,7 +28,7 @@ export type ServiceClientType<S> = {{#each services}} {{this}} {{/each}}never;
 const ClientTemplate = Handlebars.compile(`
 export interface {{name}}Client {
   {{#each methods}}
-    {{this.name}}: {{this.type}}<api.{{this.svcName}}.{{this.request}}, api.{{this.svcName}}.{{this.reply}}>,
+    {{this.name}}: {{this.type}}<{{this.svcName}}.{{this.request}}, {{this.svcName}}.{{this.reply}}>,
   {{/each}}
 }
 `);
@@ -37,7 +37,7 @@ export interface {{name}}Client {
 let serviceData = {
   services: services.map((svcType) => {
     const svc = pb.lookup(svcType);
-    return `S extends typeof api.${svc.parent.parent.name}.${svc.name} ? ${svc.name}Client :`;
+    return `S extends typeof ${svc.parent.parent.name}.${svc.name} ? ${svc.name}Client :`;
   }),
 };
 
