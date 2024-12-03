@@ -162,27 +162,36 @@ func NewService(config *BridgeConfig) (*Service, error) {
 	}
 
 	// setup mDNS
-	if config.MdnsLockerDriver != nil {
-		mdnslogger := logger.Named("mdns")
+	{
+		if config.MdnsLockerDriver != nil {
+			s.mdnsLocker.Lock()
 
-		s.mdnsLocker.Lock()
-		dh := mdns.DiscoveryHandler(ctx, mdnslogger, s.ipfsCoreAPI)
-		mdnsService := mdns.NewMdnsService(mdnslogger, s.ipfsCoreAPI, mdns.MDNSServiceName, dh)
+			close = closeFunc(close, func() error {
+				s.mdnsLocker.Unlock()
+				return nil
+			})
+		}
 
-		go func() {
-			mdnsNetworkManagerConfig := mdns.NetworkManagerConfig{
-				Logger:     mdnslogger,
-				NetManager: s.netmanager,
-				Service:    mdnsService,
-			}
-			mdns.NetworkManagerHandler(ctx, mdnsNetworkManagerConfig)
-		}()
+		if config.ConnectivityDriver != nil {
+			mdnslogger := logger.Named("mdns")
 
-		close = closeFunc(close, func() error {
-			mdnsService.Close()
-			s.mdnsLocker.Unlock()
-			return nil
-		})
+			dh := mdns.DiscoveryHandler(ctx, mdnslogger, s.ipfsCoreAPI)
+			mdnsService := mdns.NewMdnsService(mdnslogger, s.ipfsCoreAPI, mdns.MDNSServiceName, dh)
+
+			go func() {
+				mdnsNetworkManagerConfig := mdns.NetworkManagerConfig{
+					Logger:     mdnslogger,
+					NetManager: s.netmanager,
+					Service:    mdnsService,
+				}
+				mdns.NetworkManagerHandler(ctx, mdnsNetworkManagerConfig)
+			}()
+
+			close = closeFunc(close, func() error {
+				mdnsService.Close()
+				return nil
+			})
+		}
 	}
 
 	s.service, err = weshnet.NewService(weshnet.Opts{
