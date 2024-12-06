@@ -4,6 +4,8 @@ import WeshnetCore
 public class WeshnetExpoModule: Module {
     var service: WeshnetCoreService?
     var appRootDir: String?
+    var connectivityDriver: ConnectivityDriver?
+
 
     public func definition() -> ModuleDefinition {
         Name("WeshnetExpo")
@@ -11,6 +13,7 @@ public class WeshnetExpoModule: Module {
         OnCreate {
           do {
             self.appRootDir = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).path
+            self.connectivityDriver = ConnectivityDriver()
           } catch let error as NSError {
               NSLog("Error creating app root directory: \(error.localizedDescription)")
           }
@@ -50,6 +53,8 @@ public class WeshnetExpoModule: Module {
         }
         config.rootDir = self.appRootDir!
         
+        config.connectivityDriver = self.connectivityDriver
+
         guard let service = WeshnetCoreNewService(config, &err) else {
             throw WeshnetError(.coreError(err!))
         }
