@@ -2,7 +2,6 @@ import * as pbjs from "protobufjs";
 
 import rpcNative from "./rpc.native";
 import { getServiceName } from "./utils";
-import api from "../api";
 import { rpcmanager } from "../api/index.d";
 import { GRPCError, EOF } from "../error";
 import { createServiceClient } from "../service";
@@ -160,5 +159,5 @@ const client = (bridgeClient: any) => ({
   streamCall: stream(bridgeClient),
 });
 
-const bridgeClient = createServiceClient(api.rpcmanager.RPCManager, rpcNative);
+const bridgeClient = createServiceClient(rpcmanager.RPCManager, rpcNative);
 export default client(bridgeClient);
